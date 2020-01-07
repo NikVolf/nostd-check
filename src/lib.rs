@@ -1,4 +1,5 @@
 mod source;
 mod meta;
 
-pub use source::explore;
+pub use crate::source::explore;
+pub use crate::meta::find_all_root_libs;
