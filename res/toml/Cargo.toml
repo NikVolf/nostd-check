@@ -1,0 +1,13 @@
+[package]
+name = "sample"
+version = "0.1.0"
+authors = ["Nikolay Volf <nikvolf@gmail.com>"]
+edition = "2018"
+
+[dependencies]
+hashbrown = "*"
+
+[dev-dependencies]
+async-std = "*"
+
+[workspace]
