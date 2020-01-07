@@ -61,8 +61,8 @@ impl Iterator for MetaNestedIterator {
 	}
 }
 
-pub fn explore(file_path: &str) -> Exploration {
-	let mut file = File::open(&file_path).expect("Unable to open file");
+pub fn explore<R: AsRef<std::path::Path>>(file_path: R) -> Exploration {
+	let mut file = File::open(file_path.as_ref()).expect("Unable to open file");
 
     let mut src = String::new();
     file.read_to_string(&mut src).expect("Unable to read file");
