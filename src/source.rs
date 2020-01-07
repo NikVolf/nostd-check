@@ -11,6 +11,8 @@ pub enum Exploration {
 	Conditional,
 	/// No notion of no-std
 	Std,
+	/// Syn could not load the file
+	SkippedDueToParseError,
 }
 
 struct MetaNestedIterator {
@@ -67,7 +69,13 @@ pub fn explore<R: AsRef<std::path::Path>>(file_path: R) -> Exploration {
     let mut src = String::new();
     file.read_to_string(&mut src).expect("Unable to read file");
 
-	let syn_file = syn::parse_file(&src).expect("Unable to parse file");
+	let syn_file = match syn::parse_file(&src) {
+		Ok(f) => f,
+		Err(e) => {
+			println!("parse error: {:?}", e);
+			return Exploration::SkippedDueToParseError;
+		}
+	};
 
 	for attr in syn_file.attrs.iter() {
 		if let syn::AttrStyle::Inner(_) = attr.style {

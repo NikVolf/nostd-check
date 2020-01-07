@@ -1,15 +1,14 @@
 [package]
-name = "nostd-check"
+name = "nostd-check-cli"
 version = "0.1.0"
 authors = ["Nikolay Volf <nikvolf@gmail.com>"]
 edition = "2018"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
-[dependencies]
-syn = { version = "1.0", features = ["full"] }
-quote = "1.0"
-cargo = "0.41"
+[[bin]]
+name = "nostdchk"
+path = "main.rs"
 
-[workspace]
-members = ["./", "./cli"]
+[dependencies]
+nostd-check = { path = "../", version = "0.1.0" }

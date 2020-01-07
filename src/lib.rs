@@ -16,6 +16,8 @@ pub enum DependencyCheckResult {
     IsPurelyStd,
     /// Dependenct is not fine, but can be (if std feature is deactivated).
     IsConditionallyNoStdButStdIsActivated,
+    /// Unknown,
+    Unknown,
 }
 
 /// Check of the particular dependency package.
@@ -26,9 +28,17 @@ pub struct DependencyCheckSummary {
     pub result: DependencyCheckResult,
 }
 
-pub fn check(deps: &[DependencySummary]) -> Vec<DependencyCheckSummary> {
+/// Checks current directory
+pub fn check() -> Vec<DependencyCheckSummary> {
+    let deps = find_all_root_libs();
+    check_dependencies(&deps)
+}
+
+/// Checks some dependencies (can be queried by `find_all_root_libs`)
+pub fn check_dependencies(deps: &[DependencySummary]) -> Vec<DependencyCheckSummary> {
     let mut result = Vec::new();
     for dep in deps.iter() {
+        println!("Checking {}: at {}", dep.package_id, dep.lib_path.to_string_lossy());
         let check_result = match explore(dep.lib_path.clone()) {
             Exploration::NoStd => DependencyCheckResult::Ok,
             Exploration::Conditional =>
@@ -38,6 +48,7 @@ pub fn check(deps: &[DependencySummary]) -> Vec<DependencyCheckSummary> {
                     DependencyCheckResult::Ok
                 },
             Exploration::Std => DependencyCheckResult::IsPurelyStd,
+            Exploration::SkippedDueToParseError => DependencyCheckResult::Unknown,
         };
 
         result.push(
