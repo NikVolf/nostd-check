@@ -5,9 +5,10 @@ authors = ["Nikolay Volf <nikvolf@gmail.com>"]
 edition = "2018"
 
 [dependencies]
-hashbrown = "*"
+hashbrown = { version = "*", default-features = false }
 
 [dev-dependencies]
-async-std = "*"
+async-std = { version = "*", default-features = false }
+
 
 [workspace]
