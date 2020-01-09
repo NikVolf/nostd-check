@@ -76,6 +76,8 @@ pub fn find_all_root_libs() -> Vec<DependencySummary> {
     let package_set = resolve_result.pkg_set;
     let resolve = resolve_result.targeted_resolve;
 
+    // drying out resolved packages until no more regular dependencies can be added
+    // TODO: probably more optimal way exists to do it.
     loop {
         let mut found = 0;
         for package_id in package_set.package_ids() {
