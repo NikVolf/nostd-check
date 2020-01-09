@@ -10,5 +10,7 @@ hashbrown = { version = "*", default-features = false }
 [dev-dependencies]
 async-std = { version = "*", default-features = false }
 
+[build-dependencies]
+async-std = { version = "*", default-features = false, optional = true }
 
 [workspace]
