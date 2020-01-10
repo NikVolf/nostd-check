@@ -4,7 +4,7 @@ fn main() -> Result<(), &'static str> {
     let mut ok = true;
     for summary in check() {
         match summary.result {
-            DependencyCheckResult::Ok => println!("{}: ok", summary.package_id),
+            DependencyCheckResult::Ok => {}, //println!("{}: ok", summary.package_id),
             DependencyCheckResult::IsPurelyStd => {
                 println!("{}: ERROR - PURELY STD", summary.package_id);
                 ok = false;

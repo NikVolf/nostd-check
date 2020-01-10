@@ -50,6 +50,8 @@ pub fn push_reg_deps(
     let manifest_toml = toml_from_file(root_path.clone()).expect("failed to load toml");
     let mut result = 0;
 
+    // println!("expanding {}", root_path.to_string_lossy());
+
     if let Some(table) = manifest_toml.get("dependencies") {
         if let Some(table) = table.as_table() {
             for (mut dep_name, dep_table) in table.iter() {
@@ -78,6 +80,7 @@ pub fn push_reg_deps(
                 if !data.contains(dep_name) {
                     result += 1;
                     data.insert(dep_name.to_string());
+                    // println!("added {}", dep_name);
                 }
             }
         }
@@ -105,7 +108,6 @@ pub fn find_all_root_libs() -> Vec<DependencySummary> {
     let mut ban_list = HashSet::new();
     ban_list.insert("serde".to_string());
     ban_list.insert("log".to_string());
-    ban_list.insert("nodrop".to_string());
 
     let mut pkg_specs = Vec::new();
     for member in workspace.members() {
